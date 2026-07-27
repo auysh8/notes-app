@@ -1,34 +1,41 @@
-# Secure Notes Platform 🔐
+# 🔐 Secure Notes Platform
 
-A privacy-focused, full-stack web application designed for creating, managing, and storing encrypted notes securely. Built with React, Vite, TypeScript, and a Node.js backend.
+> A privacy-first, full-stack application designed for creating, storing, and managing encrypted notes with robust security standards.
 
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white)](https://eslint.org/)
+
+---
+
+## 📸 Visual Preview
+
+> 💡 **App Screenshot Placeholder**: Add a screenshot of your running application at `docs/preview.png` to replace this placeholder.
+> 
+> ![UI Preview Placeholder](https://via.placeholder.com/800x420/1e1e2e/cdd6f4?text=Secure+Notes+Platform+UI+Preview)
 
 ---
 
 ## ✨ Features
 
-- 🔒 **End-to-End Privacy**: Safeguard sensitive text and confidential information with client-server security protocols.
-- ⚡ **High Performance**: Vite-powered client delivering instant server start and lightning-fast HMR (Hot Module Replacement).
-- 🛡️ **Type-Safe Development**: Full TypeScript implementation across both client and server codebases.
-- 🌐 **Dedicated Express API**: Decoupled server layer managing API routes, encryption routines, and persistence logic.
-- 🎨 **Modern UI**: Clean, responsive user interface tailored for fast note taking and viewing.
+- 🔒 **End-to-End Security**: Built with strong encryption principles to keep user notes private and safe.
+- ⚡ **Blazing Fast UI**: Powered by **React** and **Vite** for seamless component rendering and lightning-quick HMR.
+- 🛠️ **Type Safe**: Developed using end-to-end **TypeScript** across both client and server layers.
+- 🎨 **Modern Interface**: Intuitive design for effortlessly creating, tagging, and organizing sensitive notes.
+- 🖥️ **Full-Stack Architecture**: Separate frontend client (`src/`) and Node backend environment (`server/`).
 
 ---
 
 ## 🏗️ Architecture & Data Flow
 
 ```mermaid
-graph TD
-    User([User Browser]) -->|User Interaction| Client[React + Vite Frontend]
-    Client -->|REST API Requests| Server[Express API Server]
-    Server -->|Sanitization & Encryption| Core[Security Logic]
-    Core -->|Data Persistence| Storage[(Storage Layer)]
+flowchart LR
+    A[React Client / Vite] -->|Encrypted Requests| B[Node.js Server]
+    B -->|Validation & Verification| C[Database / Storage Layer]
+    C -->|Response Payload| B
+    B -->|Secure Payload| A
 ```
 
 ---
@@ -36,8 +43,8 @@ graph TD
 ## 🛠️ Tech Stack
 
 - **Frontend**: React, TypeScript, Vite
-- **Backend**: Node.js, Express
-- **Code Quality**: ESLint, TypeScript Compiler (`tsc`)
+- **Backend**: Node.js
+- **Tooling & Code Quality**: ESLint, TypeScript Compiler (`tsc`)
 - **Package Manager**: npm
 
 ---
@@ -46,74 +53,70 @@ graph TD
 
 ### Prerequisites
 
-Ensure you have the following installed on your machine:
-- [Node.js](https://nodejs.org/) (v18.0.0 or higher)
-- [npm](https://www.npmjs.com/) (v9.0.0 or higher)
+- **Node.js** (v18.x or higher recommended)
+- **npm** (v9.x or higher)
 
-### Step-by-Step Setup
+### Installation & Setup
 
-1. **Clone the Repository**
+1. **Clone the repository**:
    ```bash
    git clone https://github.com/auysh8/secure-notes-platform.git
    cd secure-notes-platform
    ```
 
-2. **Install Dependencies**
+2. **Install dependencies**:
    ```bash
    npm install
    ```
 
-3. **Configure Environment Variables**
-   Create a `.env` file in the root directory (see section below for reference).
+3. **Run the development servers**:
+   
+   - **Start Frontend (Vite)**:
+     ```bash
+     npm run dev
+     ```
+   
+   - **Start Server**:
+     ```bash
+     npm run server
+     # or navigate to server directory if applicable
+     cd server && npm start
+     ```
 
-4. **Run the Development Server**
+4. **Build for production**:
    ```bash
-   npm run dev
+   npm run build
    ```
-   Open your browser and navigate to `http://localhost:5173`.
 
 ---
 
 ## ⚙️ Environment Variables
 
-Create a `.env` file in the root directory to set up your environment variables:
+Create a `.env` file in the root and/or `server` directory as required by your runtime environment:
 
 ```env
-# Client Configuration
-VITE_API_BASE_URL=http://localhost:3000/api
-
 # Server Configuration
-PORT=3000
+PORT=5000
 NODE_ENV=development
+
+# Security / Encryption Secrets
+SECRET_KEY=your_super_secret_encryption_key
 ```
-
----
-
-## 📖 Usage & Scripts
-
-The following npm scripts are available in `package.json`:
-
-| Script | Description |
-| :--- | :--- |
-| `npm run dev` | Starts the Vite development server for the frontend app. |
-| `npm run build` | Compiles TypeScript and builds production assets. |
-| `npm run lint` | Runs ESLint across the codebase to ensure formatting and code style. |
-| `npm run preview` | Locally previews the production build output. |
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! To contribute:
+Contributions, issues, and feature requests are welcome!
 
-1. Fork the repository.
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License - see the `LICENSE` file for details.
