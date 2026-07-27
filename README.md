@@ -1,65 +1,50 @@
-# 🔐 Secure Notes Platform
+# Secure Notes Platform 🔒
 
-> A privacy-focused, end-to-end encrypted note-taking application designed for secure creation, management, and sharing of confidential notes.
+An encrypted, privacy-focused web application engineered for secure creation, management, and storage of sensitive notes and private data.
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)](https://eslint.org/)
 
 ---
 
 ## 📸 Visual Preview
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                                                                         │
-│                    🔐 SECURE NOTES PLATFORM UI                          │
-│                                                                         │
-│   [ 📝 New Note ]    [ 🔍 Search Notes ]       [ ⚙️ Settings ]          │
-│   ───────────────────────────────────────────────────────────────────   │
-│   • Confidential Project Architecture (Encrypted)                      │
-│   • Personal Vault Keys                                                 │
-│   • Self-Destructing Passphrases                                       │
-│                                                                         │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+> 💡 Add a screenshot of your app at `docs/preview.png` to display it here.
+
+![Preview Placeholder](https://placehold.co/800x420/1e1e2e/cdd6f4?text=Add+App+Screenshot)
 
 ---
 
 ## ✨ Features
 
-- 🔒 **Zero-Knowledge Encryption**: Notes are encrypted prior to transmission, ensuring raw content remains confidential.
-- ⚡ **Blazing Fast Performance**: Powered by **Vite** and **React** for seamless interaction and instant updates.
-- 🛡️ **Type Safety**: Built with **TypeScript** across client and server logic for robust code reliability.
-- ⏱️ **Ephemeral Notes**: Support for self-destructing or expiration-based note sharing.
-- 🌐 **Restricted Access & Auth**: JWT-based authentication combined with secure server processing.
-- 🎨 **Modern Minimalist UI**: Clean design optimized for focus and privacy.
+- 🔐 **End-to-End Security:** Encrypts sensitive note content to safeguard data against unauthorized access.
+- ⚡ **High Performance Frontend:** Built with React 18, TypeScript, and Vite for instant build times and responsive rendering.
+- 🗂️ **Organized Workspace:** Efficiently categorize, filter, and structure notes for seamless retrieval.
+- 🔍 **Real-Time Client Search:** Perform immediate client-side query indexing across all notes.
+- 🛡️ **Full Type Safety:** Written end-to-end in strict TypeScript to catch errors at compile time.
+- 🎨 **Responsive Interface:** Adaptive web design ensuring smooth usability across desktop, tablet, and mobile browsers.
 
 ---
 
 ## 📂 Repository Structure
 
-```text
+```
 secure-notes-platform/
-├── public/                  # Static assets and favicons
-├── server/                  # Backend REST API and encryption utilities
+├── public/                  # Static assets
+├── server/                  # Backend application services & API routes
 ├── src/                     # React frontend source code
-│   ├── assets/              # Web assets and icons
-│   ├── components/          # Reusable UI components
-│   ├── hooks/               # Custom React hooks
-│   ├── pages/               # Application view routes
-│   └── utils/               # Crypto & helper functions
-├── .gitignore               # Git exclude rules
-├── eslint.config.js         # ESLint configuration
-├── index.html               # Vite HTML entry point
-├── package.json             # Dependencies and project scripts
-├── package-lock.json        # NPM lockfile
-├── tsconfig.app.json        # TypeScript config for frontend
-├── tsconfig.json            # Root TypeScript configuration
-├── tsconfig.node.json       # TypeScript config for Vite/Node environment
-└── vite.config.ts           # Vite build tool configuration
+├── .gitignore               # Git untracked pattern definitions
+├── eslint.config.js         # ESLint code quality configuration
+├── index.html               # Application entry HTML page
+├── package.json             # Node dependencies and npm script definitions
+├── package-lock.json        # Dependency lockfile
+├── tsconfig.app.json        # TypeScript configuration for application logic
+├── tsconfig.json            # Base TypeScript configuration
+├── tsconfig.node.json       # TypeScript configuration for Node environment
+└── vite.config.ts           # Vite bundler configuration
 ```
 
 ---
@@ -67,106 +52,83 @@ secure-notes-platform/
 ## 🏗️ Architecture & Data Flow
 
 ```mermaid
-flowchart TD
-    subgraph Client ["Client Layer (React + Vite)"]
-        User([User]) <--> UI[React UI Components]
-        UI <--> Crypto[Client-Side Crypto Engine]
-    end
-
-    subgraph Server ["Backend Layer (Node.js/Express)"]
-        Crypto -- "Encrypted Payload (TLS)" --> API[REST API Routes]
-        API <--> Auth[Auth & Validation Engine]
-        API <--> Controller[Note Controller]
-    end
-
-    subgraph Storage ["Data Layer"]
-        Controller <--> DB[(Encrypted Database)]
-    end
+graph TD
+    A[Client UI / Browser] -->|1. User Input / Note Creation| B[React + TypeScript App]
+    B -->|2. Client-Side Processing| C[Encryption Handler]
+    C -->|3. Encrypted Payload| D[Server API / Express Endpoint]
+    D -->|4. Persistent Storage| E[(Database / Storage System)]
+    E -->|5. Fetch Encrypted Notes| D
+    D -->|6. JSON Response| B
+    B -->|7. Decrypt & Render| A
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Domain | Technology | Description |
-| :--- | :--- | :--- |
-| **Frontend** | React 18, TypeScript | UI rendering & state management |
-| **Build Tool** | Vite | Ultra-fast frontend bundling & dev server |
-| **Backend** | Node.js, Express | Secure API layer and user management |
-| **Tooling** | ESLint, TypeScript Config | Code quality, linting, and static analysis |
+| Category | Technologies |
+| --- | --- |
+| **Frontend Framework** | React, TypeScript, Vite |
+| **Backend / Server** | Node.js |
+| **Code Quality & Tooling** | ESLint, TypeScript Compiler (`tsc`) |
+| **Build System** | Vite |
 
 ---
 
-## 🚀 Quick Start / Installation
+## 🚀 Quick Start
 
 ### Prerequisites
-- **Node.js**: `v18.x` or higher
-- **npm**: `v9.x` or higher
 
-### Step 1: Clone the Repository
-```bash
-git clone https://github.com/auysh8/secure-notes-platform.git
-cd secure-notes-platform
-```
+- **Node.js**: v18.0.0 or higher
+- **npm**: v9.0.0 or higher
 
-### Step 2: Install Dependencies
-```bash
-npm install
-```
+### Installation & Setup
 
-### Step 3: Configure Environment Variables
-Create a `.env` file in the root directory based on the configuration guide below.
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/auysh8/secure-notes-platform.git
+   cd secure-notes-platform
+   ```
 
-### Step 4: Run Development Server
-```bash
-# Start frontend and server concurrently
-npm run dev
-```
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
----
+3. **Start Development Server**
+   ```bash
+   npm run dev
+   ```
 
-## ⚙️ Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-# Client Configuration
-VITE_API_BASE_URL=http://localhost:5000/api
-
-# Server Configuration
-PORT=5000
-NODE_ENV=development
-JWT_SECRET=your_super_secret_jwt_key_here
-ENCRYPTION_KEY=your_32_character_master_key_here
-```
+   Open your browser and navigate to `http://localhost:5173`.
 
 ---
 
-## 📖 Usage & Scripts
+## 📖 Available Scripts
 
-The following scripts are defined in `package.json`:
+Run these commands using `npm run <script-name>`:
 
 | Script | Command | Description |
-| :--- | :--- | :--- |
-| `dev` | `npm run dev` | Launches the Vite development server with HMR |
-| `build` | `npm run build` | Compiles TypeScript and builds production bundles |
-| `preview` | `npm run preview` | Serves the production build locally for verification |
-| `lint` | `npm run lint` | Runs ESLint to inspect code formatting and error checking |
+| --- | --- | --- |
+| `dev` | `vite` | Launches the Vite local development server with hot module replacement (HMR) |
+| `build` | `tsc -b && vite build` | Runs TypeScript type-checks and bundles the application for production |
+| `lint` | `eslint .` | Scans source files for syntax errors and formatting standard violations |
+| `preview` | `vite preview` | Serves the production build locally for verification |
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions, issues, and feature requests are welcome!
 
-1. **Fork** the repository.
-2. Create a feature branch: `git checkout -b feature/amazing-feature`.
-3. Commit your changes: `git commit -m 'Add amazing feature'`.
-4. Push to the branch: `git push origin feature/amazing-feature`.
-5. Open a **Pull Request**.
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
+4. **Push** to the branch (`git push origin feature/AmazingFeature`)
+5. **Open** a Pull Request
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for more details.
+Distributed under the [MIT License](LICENSE).
