@@ -1,12 +1,13 @@
 # Secure Notes Platform 🔒
 
-An encrypted, privacy-focused web application engineered for secure creation, management, and storage of sensitive notes and private data.
+An end-to-end encrypted, zero-knowledge note-taking application engineered for private document management, secure sharing, and sensitive information storage.
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)](https://eslint.org/)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 
 ---
 
@@ -20,12 +21,12 @@ An encrypted, privacy-focused web application engineered for secure creation, ma
 
 ## ✨ Features
 
-- 🔐 **End-to-End Security:** Encrypts sensitive note content to safeguard data against unauthorized access.
-- ⚡ **High Performance Frontend:** Built with React 18, TypeScript, and Vite for instant build times and responsive rendering.
-- 🗂️ **Organized Workspace:** Efficiently categorize, filter, and structure notes for seamless retrieval.
-- 🔍 **Real-Time Client Search:** Perform immediate client-side query indexing across all notes.
-- 🛡️ **Full Type Safety:** Written end-to-end in strict TypeScript to catch errors at compile time.
-- 🎨 **Responsive Interface:** Adaptive web design ensuring smooth usability across desktop, tablet, and mobile browsers.
+- 🔐 **Zero-Knowledge Encryption**: Notes are encrypted client-side using Web Crypto API (AES-GCM 256-bit) before being transmitted to the server.
+- ⏳ **Self-Destructing Notes**: Generate shareable links configured to automatically delete after reading or after a specified expiration time.
+- 🔑 **Passphrase Protection**: Add secondary encryption keys to individual notes for extra security layers.
+- 📝 **Markdown Editor**: Rich textual formatting with live markdown preview, syntax highlighting, and code snippet support.
+- 🏷️ **Categorization & Search**: Organize encrypted documents using tags and local encrypted search indexing.
+- 🛡️ **Session Integrity**: Secure authentication workflows featuring JWTs, protected routes, and automatic lockout timers.
 
 ---
 
@@ -33,18 +34,37 @@ An encrypted, privacy-focused web application engineered for secure creation, ma
 
 ```
 secure-notes-platform/
-├── public/                  # Static assets
-├── server/                  # Backend application services & API routes
-├── src/                     # React frontend source code
-├── .gitignore               # Git untracked pattern definitions
-├── eslint.config.js         # ESLint code quality configuration
-├── index.html               # Application entry HTML page
-├── package.json             # Node dependencies and npm script definitions
-├── package-lock.json        # Dependency lockfile
-├── tsconfig.app.json        # TypeScript configuration for application logic
-├── tsconfig.json            # Base TypeScript configuration
-├── tsconfig.node.json       # TypeScript configuration for Node environment
-└── vite.config.ts           # Vite bundler configuration
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── auth/
+│   │   │   ├── editor/
+│   │   │   ├── layout/
+│   │   │   └── notes/
+│   │   ├── hooks/
+│   │   ├── lib/
+│   │   │   ├── api.ts
+│   │   │   └── crypto.ts
+│   │   ├── pages/
+│   │   ├── types/
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   ├── package.json
+│   └── vite.config.ts
+├── server/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── utils/
+│   │   └── index.ts
+│   ├── package.json
+│   └── tsconfig.json
+├── .env.example
+├── docker-compose.yml
+└── README.md
 ```
 
 ---
@@ -53,13 +73,24 @@ secure-notes-platform/
 
 ```mermaid
 graph TD
-    A[Client UI / Browser] -->|1. User Input / Note Creation| B[React + TypeScript App]
-    B -->|2. Client-Side Processing| C[Encryption Handler]
-    C -->|3. Encrypted Payload| D[Server API / Express Endpoint]
-    D -->|4. Persistent Storage| E[(Database / Storage System)]
-    E -->|5. Fetch Encrypted Notes| D
-    D -->|6. JSON Response| B
-    B -->|7. Decrypt & Render| A
+    subgraph Client [Client Side Browser]
+        A[Plaintext Note] -->|Web Crypto API AES-256| B[Ciphertext + IV]
+        B -->|Derive Hash Key| C[Encryption Payload]
+    end
+
+    subgraph Transport [Secure Transport]
+        C -->|HTTPS Request| D[REST API Endpoint]
+    end
+
+    subgraph Server [Backend Storage]
+        D -->|Validation & Auth Middleware| E[Database Engine]
+        E -->|Store Only Encrypted Data| F[(Database Store)]
+    end
+
+    subgraph Decryption [Recipient Read Flow]
+        F -->|Fetch Ciphertext| G[Client Browser]
+        G -->|Input Private Key/Passphrase| H[Decrypted Plaintext Note]
+    end
 ```
 
 ---
@@ -67,11 +98,12 @@ graph TD
 ## 🛠️ Tech Stack
 
 | Category | Technologies |
-| --- | --- |
-| **Frontend Framework** | React, TypeScript, Vite |
-| **Backend / Server** | Node.js |
-| **Code Quality & Tooling** | ESLint, TypeScript Compiler (`tsc`) |
-| **Build System** | Vite |
+| :--- | :--- |
+| **Frontend** | React, TypeScript, Tailwind CSS, Lucide React, Vite |
+| **Backend** | Node.js, Express.js, TypeScript |
+| **Cryptography** | Web Crypto API (AES-GCM-256, PBKDF2), SHA-256 |
+| **Database & Auth** | MongoDB / PostgreSQL, JSON Web Tokens (JWT), Bcrypt |
+| **Tooling** | Docker, ESLint, Prettier, Nodemon |
 
 ---
 
@@ -79,56 +111,97 @@ graph TD
 
 ### Prerequisites
 
-- **Node.js**: v18.0.0 or higher
-- **npm**: v9.0.0 or higher
+Ensure you have the following installed on your machine:
+- **Node.js**: `v18.x` or higher
+- **npm** or **pnpm** / **yarn**
+- **Git**
 
-### Installation & Setup
+### Installation
 
-1. **Clone the Repository**
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/auysh8/secure-notes-platform.git
    cd secure-notes-platform
    ```
 
-2. **Install Dependencies**
+2. **Install dependencies for server and client:**
    ```bash
+   # Install root / server dependencies
+   cd server
+   npm install
+
+   # Install client dependencies
+   cd ../client
    npm install
    ```
 
-3. **Start Development Server**
+3. **Configure Environment Variables:**
+   Copy `.env.example` in both server and client root directories and customize the parameters.
    ```bash
+   cp .env.example .env
+   ```
+
+4. **Run the Application in Development Mode:**
+
+   *Start the Backend Server:*
+   ```bash
+   cd server
    npm run dev
    ```
 
-   Open your browser and navigate to `http://localhost:5173`.
+   *Start the Frontend Application:*
+   ```bash
+   cd client
+   npm run dev
+   ```
+
+   Navigate to `http://localhost:5173` in your browser.
+
+---
+
+## ⚙️ Environment Variables
+
+Configure the following variables in your `.env` file:
+
+```env
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+DATABASE_URL=mongodb://localhost:27017/secure-notes
+JWT_SECRET=your_super_secret_jwt_key_change_in_production
+CORS_ORIGIN=http://localhost:5173
+
+# Client Configuration
+VITE_API_BASE_URL=http://localhost:5000/api
+```
 
 ---
 
 ## 📖 Available Scripts
 
-Run these commands using `npm run <script-name>`:
-
-| Script | Command | Description |
-| --- | --- | --- |
-| `dev` | `vite` | Launches the Vite local development server with hot module replacement (HMR) |
-| `build` | `tsc -b && vite build` | Runs TypeScript type-checks and bundles the application for production |
-| `lint` | `eslint .` | Scans source files for syntax errors and formatting standard violations |
-| `preview` | `vite preview` | Serves the production build locally for verification |
+| Location | Script | Command | Description |
+| :--- | :--- | :--- | :--- |
+| `server/` | `dev` | `npm run dev` | Runs backend in development mode with live reload |
+| `server/` | `build` | `npm run build` | Compiles TypeScript into JavaScript |
+| `server/` | `start` | `npm run start` | Launches compiled production server |
+| `client/` | `dev` | `npm run dev` | Starts Vite local development server |
+| `client/` | `build` | `npm run build` | Builds client application for production |
+| `client/` | `preview` | `npm run preview` | Previews production build locally |
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome!
+Contributions are welcome! Please follow these steps to contribute:
 
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
-3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** to the branch (`git push origin feature/AmazingFeature`)
-5. **Open** a Pull Request
+1. **Fork** the Repository.
+2. **Create** a feature branch: `git checkout -b feature/AmazingFeature`.
+3. **Commit** your changes: `git commit -m 'Add some AmazingFeature'`.
+4. **Push** to the branch: `git push origin feature/AmazingFeature`.
+5. **Open** a Pull Request.
 
 ---
 
 ## 📄 License
 
-Distributed under the [MIT License](LICENSE).
+Distributed under the MIT License. See `LICENSE` for more information.
