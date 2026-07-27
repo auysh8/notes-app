@@ -1,70 +1,80 @@
 # Secure Notes Platform 🔒
 
-An end-to-end encrypted, zero-knowledge note-taking application engineered for private document management, secure sharing, and sensitive information storage.
+An end-to-end full-stack notes management application built with TypeScript, React, and Express. Designed for efficiency and privacy, featuring authenticated user workspaces, real-time search, tag filtering, and note state management (active, archived, trash).
 
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 
 ---
 
 ## 📸 Visual Preview
 
-> 💡 Add a screenshot of your app at `docs/preview.png` to display it here.
-
-![Preview Placeholder](https://placehold.co/800x420/1e1e2e/cdd6f4?text=Add+App+Screenshot)
+| Dashboard | Authentication |
+| :---: | :---: |
+| ![Dashboard](https://raw.githubusercontent.com/auysh8/secure-notes-platform/main/src/screenshots/dashboard.png) | ![Login](https://raw.githubusercontent.com/auysh8/secure-notes-platform/main/src/screenshots/login.png) |
 
 ---
 
 ## ✨ Features
 
-- 🔐 **Zero-Knowledge Encryption**: Notes are encrypted client-side using Web Crypto API (AES-GCM 256-bit) before being transmitted to the server.
-- ⏳ **Self-Destructing Notes**: Generate shareable links configured to automatically delete after reading or after a specified expiration time.
-- 🔑 **Passphrase Protection**: Add secondary encryption keys to individual notes for extra security layers.
-- 📝 **Markdown Editor**: Rich textual formatting with live markdown preview, syntax highlighting, and code snippet support.
-- 🏷️ **Categorization & Search**: Organize encrypted documents using tags and local encrypted search indexing.
-- 🛡️ **Session Integrity**: Secure authentication workflows featuring JWTs, protected routes, and automatic lockout timers.
+* **🔐 Secure Authentication:** Full user signup and login workflows protected by server-side authentication middleware and JWT tokens.
+* **📝 Rich Note Operations:** Create, update, archive, restore, and permanently delete notes seamlessly.
+* **🔍 Instant Search & Filters:** Fast client-side searching across note content and titles with sidebar view filtering.
+* **🏷️ Organized Workspaces:** Dedicated views for active notes, archived notes, and trash bin navigation.
+* **⚡ End-to-End TypeScript:** Type safety guaranteed across the stack from database models to frontend components.
+* **🎨 Modular UI Design:** Styled using CSS Modules for clean, non-conflicting component styling.
 
 ---
 
 ## 📂 Repository Structure
 
-```
+```text
 secure-notes-platform/
-├── client/
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── auth/
-│   │   │   ├── editor/
-│   │   │   ├── layout/
-│   │   │   └── notes/
-│   │   ├── hooks/
-│   │   ├── lib/
-│   │   │   ├── api.ts
-│   │   │   └── crypto.ts
-│   │   ├── pages/
-│   │   ├── types/
-│   │   ├── App.tsx
-│   │   └── main.tsx
-│   ├── package.json
-│   └── vite.config.ts
+├── public/
+│   └── vite.svg
 ├── server/
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── middleware/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   ├── utils/
-│   │   └── index.ts
-│   ├── package.json
+│   ├── controller/
+│   │   ├── auth.controller.ts
+│   │   └── notes.controller.ts
+│   ├── middleware/
+│   │   ├── auth.middleware.ts
+│   │   └── error.middleware.ts
+│   ├── models/
+│   │   ├── note.model.ts
+│   │   └── user.model.ts
+│   ├── routes/
+│   │   ├── auth.routes.ts
+│   │   └── notes.routes.ts
+│   ├── index.ts
 │   └── tsconfig.json
-├── .env.example
-├── docker-compose.yml
-└── README.md
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── Logo/
+│   │   ├── New Note Button/
+│   │   ├── Note Edit View/
+│   │   ├── Notes Grid/
+│   │   ├── Search bar/
+│   │   └── Sidebar/
+│   ├── dashboard/
+│   │   └── Dashboard.tsx
+│   ├── hooks/
+│   │   └── useNotes.ts
+│   ├── pages/
+│   │   ├── AuthPage.tsx
+│   │   └── LoadingPage.tsx
+│   ├── services/
+│   │   └── notesApi.ts
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── types.ts
+├── index.html
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
 ```
 
 ---
@@ -72,25 +82,28 @@ secure-notes-platform/
 ## 🏗️ Architecture & Data Flow
 
 ```mermaid
-graph TD
-    subgraph Client [Client Side Browser]
-        A[Plaintext Note] -->|Web Crypto API AES-256| B[Ciphertext + IV]
-        B -->|Derive Hash Key| C[Encryption Payload]
+flowchart TD
+    subgraph Frontend [React + Vite Client]
+        UI[User Interface / React Components]
+        Hook[useNotes Hook]
+        API[notesApi Service]
+        UI --> Hook
+        Hook --> API
     end
 
-    subgraph Transport [Secure Transport]
-        C -->|HTTPS Request| D[REST API Endpoint]
+    subgraph Backend [Node.js + Express API Server]
+        Routes[Express Routes /auth & /notes]
+        AuthMW[Auth Middleware]
+        Controllers[Auth & Notes Controllers]
+        Models[Data Models]
+        
+        API -->|HTTP Requests / Auth Header| Routes
+        Routes --> AuthMW
+        AuthMW --> Controllers
+        Controllers --> Models
     end
 
-    subgraph Server [Backend Storage]
-        D -->|Validation & Auth Middleware| E[Database Engine]
-        E -->|Store Only Encrypted Data| F[(Database Store)]
-    end
-
-    subgraph Decryption [Recipient Read Flow]
-        F -->|Fetch Ciphertext| G[Client Browser]
-        G -->|Input Private Key/Passphrase| H[Decrypted Plaintext Note]
-    end
+    Models -->|Data Persistence| DB[(Database)]
 ```
 
 ---
@@ -99,11 +112,10 @@ graph TD
 
 | Category | Technologies |
 | :--- | :--- |
-| **Frontend** | React, TypeScript, Tailwind CSS, Lucide React, Vite |
-| **Backend** | Node.js, Express.js, TypeScript |
-| **Cryptography** | Web Crypto API (AES-GCM-256, PBKDF2), SHA-256 |
-| **Database & Auth** | MongoDB / PostgreSQL, JSON Web Tokens (JWT), Bcrypt |
-| **Tooling** | Docker, ESLint, Prettier, Nodemon |
+| **Frontend** | React 18, TypeScript, Vite, CSS Modules |
+| **Backend** | Node.js, Express, TypeScript, REST API |
+| **Authentication** | Custom Auth Middleware, Password Hashing, Tokens |
+| **Tooling** | ESLint, TypeScript Compiler (tsc) |
 
 ---
 
@@ -111,12 +123,10 @@ graph TD
 
 ### Prerequisites
 
-Ensure you have the following installed on your machine:
-- **Node.js**: `v18.x` or higher
-- **npm** or **pnpm** / **yarn**
-- **Git**
+* Node.js (v18.0.0 or higher recommended)
+* npm (v9.0.0 or higher)
 
-### Installation
+### Setup & Installation
 
 1. **Clone the repository:**
    ```bash
@@ -124,84 +134,69 @@ Ensure you have the following installed on your machine:
    cd secure-notes-platform
    ```
 
-2. **Install dependencies for server and client:**
+2. **Install frontend dependencies:**
    ```bash
-   # Install root / server dependencies
-   cd server
-   npm install
-
-   # Install client dependencies
-   cd ../client
    npm install
    ```
 
-3. **Configure Environment Variables:**
-   Copy `.env.example` in both server and client root directories and customize the parameters.
-   ```bash
-   cp .env.example .env
-   ```
-
-4. **Run the Application in Development Mode:**
-
-   *Start the Backend Server:*
+3. **Install backend dependencies:**
    ```bash
    cd server
-   npm run dev
+   npm install
+   cd ..
    ```
 
-   *Start the Frontend Application:*
-   ```bash
-   cd client
-   npm run dev
-   ```
+4. **Start the development servers:**
 
-   Navigate to `http://localhost:5173` in your browser.
+   * **Run Backend Server:**
+     ```bash
+     cd server
+     npm run dev
+     ```
 
----
+   * **Run Frontend Client (in a separate terminal):**
+     ```bash
+     npm run dev
+     ```
 
-## ⚙️ Environment Variables
-
-Configure the following variables in your `.env` file:
-
-```env
-# Server Configuration
-PORT=5000
-NODE_ENV=development
-DATABASE_URL=mongodb://localhost:27017/secure-notes
-JWT_SECRET=your_super_secret_jwt_key_change_in_production
-CORS_ORIGIN=http://localhost:5173
-
-# Client Configuration
-VITE_API_BASE_URL=http://localhost:5000/api
-```
+5. **Access the application:**
+   Open your browser and navigate to `http://localhost:5173`.
 
 ---
 
 ## 📖 Available Scripts
 
-| Location | Script | Command | Description |
-| :--- | :--- | :--- | :--- |
-| `server/` | `dev` | `npm run dev` | Runs backend in development mode with live reload |
-| `server/` | `build` | `npm run build` | Compiles TypeScript into JavaScript |
-| `server/` | `start` | `npm run start` | Launches compiled production server |
-| `client/` | `dev` | `npm run dev` | Starts Vite local development server |
-| `client/` | `build` | `npm run build` | Builds client application for production |
-| `client/` | `preview` | `npm run preview` | Previews production build locally |
+### Frontend Scripts (Root Directory)
+
+| Command | Description |
+| :--- | :--- |
+| `npm run dev` | Launches the Vite frontend development server. |
+| `npm run build` | Builds the React frontend application for production. |
+| `npm run lint` | Runs ESLint to check for code quality and syntax issues. |
+| `npm run preview` | Previews the production build locally. |
+
+### Backend Scripts (`server/` Directory)
+
+| Command | Description |
+| :--- | :--- |
+| `npm run dev` | Runs the Express server in development mode. |
+| `npm run build` | Compiles server TypeScript files to JavaScript. |
+| `npm start` | Runs the compiled server in production mode. |
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps to contribute:
+Contributions are welcome! Please follow these steps:
 
-1. **Fork** the Repository.
-2. **Create** a feature branch: `git checkout -b feature/AmazingFeature`.
-3. **Commit** your changes: `git commit -m 'Add some AmazingFeature'`.
-4. **Push** to the branch: `git push origin feature/AmazingFeature`.
-5. **Open** a Pull Request.
+1. Fork the project repository.
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
 
 ---
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+This project is licensed under the MIT License. See the `LICENSE` file for details.
