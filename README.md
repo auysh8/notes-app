@@ -79,35 +79,6 @@ secure-notes-platform/
 
 ---
 
-## 🏗️ Architecture & Data Flow
-
-```mermaid
-flowchart TD
-    subgraph Frontend [React + Vite Client]
-        UI[User Interface / React Components]
-        Hook[useNotes Hook]
-        API[notesApi Service]
-        UI --> Hook
-        Hook --> API
-    end
-
-    subgraph Backend [Node.js + Express API Server]
-        Routes[Express Routes /auth & /notes]
-        AuthMW[Auth Middleware]
-        Controllers[Auth & Notes Controllers]
-        Models[Data Models]
-        
-        API -->|HTTP Requests / Auth Header| Routes
-        Routes --> AuthMW
-        AuthMW --> Controllers
-        Controllers --> Models
-    end
-
-    Models -->|Data Persistence| DB[(Database)]
-```
-
----
-
 ## 🛠️ Tech Stack
 
 | Category | Technologies |
