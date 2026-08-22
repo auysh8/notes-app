@@ -19,7 +19,12 @@ if (process.env.NODE_ENV !== "test") {
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://auysh8.github.io"],
+    origin: [
+      "http://localhost:5173",
+      "https://auysh8.github.io",
+      /\.vercel\.app$/,
+    ],
+    credentials: true,
   }),
 );
 app.use(express.json());
