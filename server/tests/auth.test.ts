@@ -63,5 +63,6 @@ describe("Authentication Api", () => {
     });
     expect(response.status).toBe(200);
     expect(response.body.message).toBe("User loged in");
+    expect(response.body.token).toBeDefined();
   });
 });

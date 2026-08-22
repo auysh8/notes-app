@@ -1,6 +1,6 @@
-# Secure Notes Platform 🔒
+# Secure Notes Platform
 
-An end-to-end full-stack notes management application built with TypeScript, React, and Express. Designed for efficiency and privacy, featuring authenticated user workspaces, real-time search, tag filtering, and note state management (active, archived, trash).
+An end-to-end full-stack notes management application built with TypeScript, React, Node.js, and Express. Designed for speed, security, and data privacy, featuring authenticated user workspaces, real-time search, tag filtering, and note lifecycle management (active, archived, trash).
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -10,7 +10,14 @@ An end-to-end full-stack notes management application built with TypeScript, Rea
 
 ---
 
-## 📸 Visual Preview
+## Deployments & Live Demo
+
+- **Live Application (Vercel):** [https://notes-app-neon-eta.vercel.app](https://notes-app-neon-eta.vercel.app)
+- **GitHub Repository:** [https://github.com/auysh8/secure-notes-platform](https://github.com/auysh8/secure-notes-platform)
+
+---
+
+## Visual Preview
 
 | Dashboard | Authentication |
 | :---: | :---: |
@@ -18,23 +25,21 @@ An end-to-end full-stack notes management application built with TypeScript, Rea
 
 ---
 
-## ✨ Features
+## Key Features
 
-* **🔐 Secure Authentication:** Full user signup and login workflows protected by server-side authentication middleware and JWT tokens.
-* **📝 Rich Note Operations:** Create, update, archive, restore, and permanently delete notes seamlessly.
-* **🔍 Instant Search & Filters:** Fast client-side searching across note content and titles with sidebar view filtering.
-* **🏷️ Organized Workspaces:** Dedicated views for active notes, archived notes, and trash bin navigation.
-* **⚡ End-to-End TypeScript:** Type safety guaranteed across the stack from database models to frontend components.
-* **🎨 Modular UI Design:** Styled using CSS Modules for clean, non-conflicting component styling.
+- **Secure Authentication:** Full user signup and login workflows protected by JWT tokens and server-side authentication middleware.
+- **Rich Note Operations:** Create, edit, pin, color-tag, archive, restore, and permanently delete notes.
+- **Instant Search & Filtering:** Client-side search across note titles and contents with sidebar view filtering.
+- **Dedicated Workspaces:** Distinct views for active notes, pinned notes, archived items, and trash bin.
+- **End-to-End Type Safety:** Fully typed across the entire stack using TypeScript for models, API payloads, and UI components.
+- **Responsive Interface:** Modular CSS styling designed for seamless desktop and mobile interactions.
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```text
 secure-notes-platform/
-├── public/
-│   └── vite.svg
 ├── server/
 │   ├── controller/
 │   │   ├── auth.controller.ts
@@ -51,7 +56,6 @@ secure-notes-platform/
 │   ├── index.ts
 │   └── tsconfig.json
 ├── src/
-│   ├── assets/
 │   ├── components/
 │   │   ├── Logo/
 │   │   ├── New Note Button/
@@ -74,28 +78,60 @@ secure-notes-platform/
 ├── index.html
 ├── package.json
 ├── tsconfig.json
+├── vercel.json
 └── vite.config.ts
 ```
 
 ---
 
-## 🛠️ Tech Stack
+## Architecture & Data Flow
 
-| Category | Technologies |
-| :--- | :--- |
-| **Frontend** | React 18, TypeScript, Vite, CSS Modules |
-| **Backend** | Node.js, Express, TypeScript, REST API |
-| **Authentication** | Custom Auth Middleware, Password Hashing, Tokens |
-| **Tooling** | ESLint, TypeScript Compiler (tsc) |
+```mermaid
+flowchart TD
+    subgraph Frontend [React + Vite Client]
+        UI[React Components / Dashboard]
+        Hook[useNotes Custom Hook]
+        API[Axios API Client]
+        UI --> Hook
+        Hook --> API
+    end
+
+    subgraph Backend [Node.js + Express API Server]
+        Routes[Express Routes /auth & /notes]
+        AuthMW[JWT Auth Middleware]
+        Controllers[Auth & Notes Controllers]
+        Models[Mongoose Data Models]
+        
+        API -->|HTTP Requests with Bearer Token| Routes
+        Routes --> AuthMW
+        AuthMW --> Controllers
+        Controllers --> Models
+    end
+
+    Models -->|Data Persistence| DB[(MongoDB Database)]
+```
 
 ---
 
-## 🚀 Quick Start
+## Tech Stack
+
+| Category | Technologies |
+| :--- | :--- |
+| **Frontend** | React 18/19, TypeScript, Vite, React Router DOM, Framer Motion, CSS Modules |
+| **Backend** | Node.js, Express, TypeScript, Mongoose ODM |
+| **Database** | MongoDB / MongoDB Atlas |
+| **Security** | JSON Web Tokens (JWT), bcryptjs password hashing, custom auth middleware |
+| **Deployment** | Vercel (Frontend), Render / Railway (Backend) |
+
+---
+
+## Quick Start
 
 ### Prerequisites
 
-* Node.js (v18.0.0 or higher recommended)
-* npm (v9.0.0 or higher)
+- Node.js (v18.0.0 or higher)
+- npm or pnpm
+- MongoDB connection string
 
 ### Setup & Installation
 
@@ -117,57 +153,67 @@ secure-notes-platform/
    cd ..
    ```
 
-4. **Start the development servers:**
+4. **Configure environment variables:**
 
-   * **Run Backend Server:**
+   Create `.env` in `server/`:
+   ```env
+   PORT=5000
+   MONGO_URI=your_mongodb_connection_string
+   JWT_SECRET=your_jwt_secret_key
+   ```
+
+   Create `.env` in the root frontend directory:
+   ```env
+   VITE_BACKEND_URL=http://localhost:5000
+   ```
+
+5. **Start development servers:**
+
+   - **Backend:**
      ```bash
      cd server
      npm run dev
      ```
 
-   * **Run Frontend Client (in a separate terminal):**
+   - **Frontend (in a separate terminal):**
      ```bash
      npm run dev
      ```
 
-5. **Access the application:**
-   Open your browser and navigate to `http://localhost:5173`.
+6. Open `http://localhost:5173` in your browser.
 
 ---
 
-## 📖 Available Scripts
+## Available Scripts
 
-### Frontend Scripts (Root Directory)
+### Frontend Scripts (Root)
 
 | Command | Description |
 | :--- | :--- |
-| `npm run dev` | Launches the Vite frontend development server. |
-| `npm run build` | Builds the React frontend application for production. |
-| `npm run lint` | Runs ESLint to check for code quality and syntax issues. |
-| `npm run preview` | Previews the production build locally. |
+| `npm run dev` | Starts Vite development server |
+| `npm run build` | Builds production bundle into `dist` |
+| `npm run preview` | Previews production build locally |
+| `npm run lint` | Runs ESLint |
 
-### Backend Scripts (`server/` Directory)
+### Backend Scripts (`server/`)
 
 | Command | Description |
 | :--- | :--- |
-| `npm run dev` | Runs the Express server in development mode. |
-| `npm run build` | Compiles server TypeScript files to JavaScript. |
-| `npm start` | Runs the compiled server in production mode. |
+| `npm run dev` | Runs Express server with live reload (`tsx watch`) |
+| `npm run build` | Compiles TypeScript files |
+| `npm start` | Runs compiled production server |
 
 ---
 
-## 🤝 Contributing
+## License
 
-Contributions are welcome! Please follow these steps:
-
-1. Fork the project repository.
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request.
+This project is licensed under the MIT License.
 
 ---
 
-## 📄 License
+## Author
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+**Pankaj Bhandari**
+- GitHub: [https://github.com/auysh8](https://github.com/auysh8)
+- LinkedIn: [https://linkedin.com/in/pankajbhandari2004](https://linkedin.com/in/pankajbhandari2004)
+- Email: [pankajbhandari0714@gmail.com](mailto:pankajbhandari0714@gmail.com)
