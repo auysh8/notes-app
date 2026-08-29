@@ -9,6 +9,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { MdOutlineRestore } from "react-icons/md";
 import styles from "./Notes.module.css";
 import type { Note } from "../../types";
+import { formatTimeAgo } from "../../utils/date";
 
 interface NotesProps {
   onClick: () => void;
@@ -51,30 +52,7 @@ const Notes = ({
   const handlePopup = () => {
     setPopup(!popup);
   };
-  const formatTimeAgo = () => {
-    if (!noteData) {
-      return "";
-    }
-    const secounds = Math.floor(
-      (Date.now() - new Date(noteData.lastEdited).getTime()) / 1000,
-    );
-    let interval = Math.floor(secounds / 31536000);
-    if (interval >= 1) return interval + "y ago";
 
-    interval = Math.floor(secounds / 2592000);
-    if (interval >= 1) return interval + "m ago";
-
-    interval = Math.floor(secounds / 86400);
-    if (interval >= 1) return interval + "d ago";
-
-    interval = Math.floor(secounds / 3600);
-    if (interval >= 1) return interval + "h ago";
-
-    interval = Math.floor(secounds / 60);
-    if (interval >= 1) return interval + "min ago";
-
-    return "just now";
-  };
   return (
     <motion.div
       className={styles.note}
@@ -105,7 +83,7 @@ const Notes = ({
       <span className={styles.note_content}>{noteData.content}</span>
       <div className={styles.note_footer}>
         <div className={styles.note_time_edited}>
-          <span>Edited {formatTimeAgo()}</span>
+          <span>Edited {formatTimeAgo(noteData)}</span>
         </div>
         <div
           className={styles.extras_container}

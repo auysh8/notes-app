@@ -9,22 +9,30 @@ interface ProtectedRouteProps {
   children: ReactNode;
 }
 
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+const isTokenValid = () => {
   const token = localStorage.getItem("token");
   try {
     if (!token) {
-      return <Navigate to={"/login"} />;
+      return false;
     }
     const decoded = jwtDecode(token);
     const currTime = Date.now() / 1000;
     if (decoded.exp && decoded.exp < currTime) {
       localStorage.removeItem("token");
       localStorage.removeItem("name");
-      return <Navigate to={"/login"} />;
+      return false;
     }
-    return children;
-  } catch (err) {
+    return true;
+  } catch {
     localStorage.removeItem("token");
+    return false;
+  }
+};
+
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  if (isTokenValid()) {
+    return children;
+  } else {
     return <Navigate to={"/login"} />;
   }
 };
