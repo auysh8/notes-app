@@ -2,9 +2,10 @@ import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
-      user?: String;
+      user?: string;
     }
   }
 }
@@ -16,7 +17,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
       return res.status(401).json({ message: "Invalid token" });
     }
     const decoded = jwt.verify(token, process.env.JWT as string) as {
-      id: String;
+      id: string;
     };
     req.user = decoded.id;
     next();
